@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>MK Barber</title>
+<meta name="description" content="Prise de rendez-vous chez MK Barber, Bordeaux">
+<meta name="theme-color" content="#c4202c">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="MK Barber">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#f2f3f0;--surface:#ffffff;--fg:#10192e;--muted:#586179;--line:#d9dce3;
+  --accent:#c4202c;--accent-ink:#ffffff;--blue:#1d4f91;--ok:#1b7a4b;--danger:#b3261e;--soft:#e9ebf0;
+  --f-display:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;
+  --f-body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    color-scheme:dark;
+    --bg:#0c1220;--surface:#151d31;--fg:#eceff6;--muted:#9aa4bd;--line:#27324d;
+    --accent:#ff6169;--accent-ink:#1a0709;--blue:#7fb0f0;--ok:#4cc38a;--danger:#ff8a80;--soft:#1d2740;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:calc(40px + env(safe-area-inset-bottom,0px))}
+.wrap{max-width:640px;margin:0 auto}
+.pole{height:10px;margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)));
+  background:repeating-linear-gradient(-45deg,var(--accent) 0 12px,var(--surface) 12px 24px,var(--blue) 24px 36px,var(--surface) 36px 48px)}
+header.profile{padding:22px 0 10px;display:flex;align-items:center;gap:18px}
+.avatar{flex:0 0 auto;width:96px;height:96px;border-radius:50%;overflow:hidden;border:2px solid var(--line);background:#fff}
+.avatar img{display:block;width:100%;height:100%;object-fit:cover;transform:scale(1.07)}
+header.profile .who{min-width:0}
+h1{font-family:var(--f-display);font-weight:800;font-size:2.6rem;line-height:.9;letter-spacing:.02em;margin:0;text-transform:uppercase}
+h1 span{color:var(--accent)}
+.handle{font-family:var(--f-mono);font-size:.82rem;color:var(--muted);margin:6px 0 0;overflow-wrap:anywhere}
+.bio{padding:2px 0 4px}
+.bio p{margin:0 0 2px;font-size:.98rem}
+nav.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin:14px 0 22px;overflow-x:auto}
+nav.tabs button{background:none;border:0;color:var(--muted);font:600 .95rem var(--f-body);padding:12px 14px;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap}
+nav.tabs button[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--accent)}
+h2{font-family:var(--f-display);font-weight:700;font-size:1.5rem;letter-spacing:.03em;text-transform:uppercase;margin:0 0 10px}
+h3{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:26px 0 10px;font-weight:700}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px}
+.note{color:var(--muted);font-size:.92rem;margin:0 0 12px}
+.empty{background:var(--surface);border:1px dashed var(--line);border-radius:6px;padding:22px 16px;text-align:center;color:var(--muted)}
+.empty strong{display:block;color:var(--fg);font-size:1.05rem;margin-bottom:4px}
+.svc{display:flex;flex-direction:column;gap:8px}
+.svc label{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:13px 14px;cursor:pointer}
+.svc input{accent-color:var(--accent);width:18px;height:18px;margin:0}
+.svc .n{flex:1;min-width:0;font-weight:600}
+.svc .d{font-size:.85rem;color:var(--muted);font-weight:400;display:block}
+.svc .p{font-family:var(--f-mono);font-size:.95rem}
+.svc label:has(input:checked){border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.days{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x proximity}
+.day{flex:0 0 62px;scroll-snap-align:start;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:8px 0;text-align:center;cursor:pointer;color:var(--fg);font-family:var(--f-body)}
+.day .w{display:block;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.day .k{display:block;font-family:var(--f-display);font-size:1.7rem;font-weight:700;line-height:1.1}
+.day .m{display:block;font-size:.72rem;color:var(--muted)}
+.day[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.day[aria-pressed="true"] .w,.day[aria-pressed="true"] .m{color:var(--accent-ink)}
+.day:disabled{opacity:.4;cursor:not-allowed}
+.times{display:grid;grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:8px}
+.time{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:11px 0;font:500 .98rem var(--f-mono);color:var(--fg);cursor:pointer}
+.time[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.field label{font-size:.82rem;font-weight:600;color:var(--muted)}
+input[type=text],input[type=tel],input[type=number],input[type=date],input[type=time],input[type=password],select,textarea{
+  font:inherit;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:11px 12px;width:100%;min-width:0}
+textarea{font-family:var(--f-mono);font-size:.82rem;line-height:1.45;resize:vertical}
+input:focus-visible,select:focus-visible,button:focus-visible,textarea:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.btn{display:block;font:700 1rem var(--f-body);border-radius:6px;border:1px solid var(--accent);background:var(--accent);color:var(--accent-ink);padding:13px 18px;cursor:pointer;width:100%;text-align:center;text-decoration:none}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.ghost{background:transparent;color:var(--fg);border-color:var(--line)}
+.btn.small{display:inline-block;width:auto;padding:8px 12px;font-size:.88rem}
+.btn.danger{background:transparent;color:var(--danger);border-color:var(--danger)}
+.stack{display:flex;flex-direction:column;gap:10px}
+.summary{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.95rem;margin-bottom:14px}
+.err{color:var(--danger);font-size:.92rem;margin:0 0 12px}
+.row{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px 14px;margin-bottom:8px;flex-wrap:wrap}
+.row .t{font:500 1rem var(--f-mono);min-width:5.5rem}
+.row .who{flex:1;min-width:140px}
+.row .who b{display:block}
+.row .who span{color:var(--muted);font-size:.9rem;display:block}
+.badge{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;background:var(--soft);color:var(--muted);padding:3px 8px;border-radius:99px;font-weight:700}
+.badge.warn{background:var(--accent);color:var(--accent-ink)}
+.hours{display:grid;gap:8px}
+.hrow{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px 12px}
+.hrow label.tog{display:flex;gap:10px;align-items:center;font-weight:600;text-transform:capitalize}
+.hrow input[type=checkbox]{accent-color:var(--accent);width:18px;height:18px;margin:0}
+.hrow .closed{color:var(--muted);font-size:.9rem;font-weight:400;text-transform:none}
+.rng{display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap}
+.rng input[type=time]{width:112px;padding:8px}
+.rng .sep{color:var(--muted)}
+.srow{display:grid;grid-template-columns:1fr 100px 86px auto;gap:8px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:10px;margin-bottom:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{display:inline-flex;gap:8px;align-items:center;background:var(--soft);border-radius:99px;padding:6px 8px 6px 12px;font-size:.9rem}
+.chip button{background:none;border:0;color:var(--muted);cursor:pointer;font-size:1rem;line-height:1;padding:2px 6px}
+.addrow{display:flex;gap:8px}
+.addrow input{flex:1}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.banner{background:var(--soft);border-radius:6px;padding:10px 12px;font-size:.9rem;margin-bottom:16px}
+ol.steps{padding-left:20px;margin:0 0 14px}
+ol.steps li{margin-bottom:6px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--fg);color:var(--bg);padding:11px 16px;border-radius:6px;font-weight:600;font-size:.92rem;z-index:20;max-width:calc(100% - 32px)}
+.toast[hidden]{display:none}
+@media (max-width:480px){
+  h1{font-size:2.2rem}
+  .avatar{width:80px;height:80px}
+  .srow{grid-template-columns:1fr 1fr}
+  .srow input[data-f=name]{grid-column:1/3}
+}
+@media (prefers-reduced-motion:no-preference){
+  .time,.day,.btn,.svc label{transition:background .15s,border-color .15s,color .15s}
+}
+</style>
+</head>
+<body>
+<div class="pole" aria-hidden="true"></div>
+<div class="wrap">
+  <header class="profile">
+    <div class="avatar"><img src="logo.png" alt="Logo MK Barber, Bordeaux, depuis 2024" width="96" height="96"></div>
+    <div class="who">
+      <h1>MK <span>Barber</span></h1>
+      <div class="handle">@mk.barber33000</div>
+    </div>
+  </header>
+  <div class="bio">
+    <p><b>Prise de rdv en privé</b></p>
+    <p>Bordeaux</p>
+    <p>Coupe : 10&nbsp;€ (barbe offerte)</p>
+  </div>
+  <nav class="tabs" id="tabs" role="tablist" aria-label="Sections"></nav>
+  <main id="app" aria-live="polite"></main>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script src="config.js"></script>
+<script>
+(function(){
+"use strict";
+var PUB=window.MK_CONFIG;
+var $app=document.getElementById('app'),$tabs=document.getElementById('tabs'),$toast=document.getElementById('toast');
+var DAYS=['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
+var DAYS_S=['dim','lun','mar','mer','jeu','ven','sam'];
+var MONTHS=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+var MONTHS_S=['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+var ORDER=[1,2,3,4,5,6,0];
+var LS_DRAFT='mk-barber-brouillon',SS_ADMIN='mk-barber-gerant';
+
+function clone(o){return JSON.parse(JSON.stringify(o));}
+function pad(n){return (n<10?'0':'')+n;}
+function dk(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());}
+function parseKey(k){var p=k.split('-');return new Date(+p[0],+p[1]-1,+p[2]);}
+function toMin(t){var p=String(t).split(':');return (+p[0])*60+(+p[1]);}
+function fromMin(m){return pad(Math.floor(m/60))+':'+pad(m%60);}
+function longDate(k){var d=parseKey(k);return DAYS[d.getDay()]+' '+d.getDate()+' '+MONTHS[d.getMonth()];}
+function euro(n){return (Math.round(n*100)/100).toString().replace('.',',')+' €';}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function rid(){return Math.random().toString(36).slice(2,8);}
+
+function normalize(c){
+  c.services=c.services||[];c.closed=c.closed||[];c.busy=c.busy||[];c.hours=c.hours||{};
+  c.horizonDays=c.horizonDays||21;c.whatsapp=c.whatsapp||'';
+  for(var i=0;i<7;i++){
+    var h=c.hours[i]||(c.hours[i]={open:false});
+    if(!h.ranges||!h.ranges.length)h.ranges=[{s:h.s||'09:00',e:h.e||'19:00'}];
+  }
+  return c;
+}
+normalize(PUB);
+
+var S={
+  view:'book',admView:'rdv',admin:false,draft:null,
+  sel:{svc:null,date:null,time:null},form:{name:'',phone:''},
+  sent:null,err:null,adminErr:null,settingsErr:null,newBusy:{date:'',time:'10:00',svc:'',label:''}
+};
+try{S.admin=sessionStorage.getItem(SS_ADMIN)==='1';}catch(e){}
+try{var sv=JSON.parse(localStorage.getItem('mk-barber-form')||'null');if(sv){S.form.name=sv.name||'';S.form.phone=sv.phone||'';}}catch(e){}
+function loadDraft(){
+  try{var d=JSON.parse(localStorage.getItem(LS_DRAFT)||'null');if(d)return normalize(d);}catch(e){}
+  return normalize(clone(PUB));
+}
+function saveDraft(){try{localStorage.setItem(LS_DRAFT,JSON.stringify(S.draft));}catch(e){}}
+if(S.admin)S.draft=loadDraft();
+function cfg(){return (S.admin&&S.draft)?S.draft:PUB;}
+function isDirty(){return S.draft&&JSON.stringify(S.draft)!==JSON.stringify(PUB);}
+
+/* ---------- disponibilités ---------- */
+function slotKey(date,min){return date+'_'+min;}
+function busySet(c){
+  var s={};
+  c.busy.forEach(function(b){var st=toMin(b.time);for(var m=st;m<st+(b.dur||30);m+=15)s[slotKey(b.date,m)]=1;});
+  return s;
+}
+function avail(c,date,dur){
+  var d=parseKey(date),h=c.hours[d.getDay()];
+  if(!h||!h.open||c.closed.indexOf(date)>-1)return[];
+  var bs=busySet(c),out=[];
+  var now=new Date(),isToday=date===dk(now),lead=now.getHours()*60+now.getMinutes()+30;
+  h.ranges.forEach(function(r){
+    var st=toMin(r.s),en=toMin(r.e);
+    for(var t=st;t+dur<=en;t+=30){
+      if(isToday&&t<lead)continue;
+      var ok=true;
+      for(var b=t;b<t+dur;b+=15){if(bs[slotKey(date,b)]){ok=false;break;}}
+      if(ok)out.push(fromMin(t));
+    }
+  });
+  out.sort();
+  return out;
+}
+function svcById(c,id){for(var i=0;i<c.services.length;i++){if(c.services[i].id===id)return c.services[i];}return null;}
+function nextDays(c){var a=[],d=new Date();for(var i=0;i<c.horizonDays;i++){a.push(dk(d));d=new Date(d.getFullYear(),d.getMonth(),d.getDate()+1);}return a;}
+
+/* ---------- rendu ---------- */
+function renderTabs(){
+  var t=[['book','Réserver'],['admin',S.admin?'Gérant':'Connexion']];
+  $tabs.innerHTML=t.map(function(x){return '<button role="tab" type="button" data-act="tab" data-v="'+x[0]+'" aria-selected="'+(S.view===x[0])+'">'+x[1]+'</button>';}).join('');
+}
+function render(){
+  renderTabs();
+  $app.innerHTML=(S.view==='admin')?(S.admin?vAdmin():vLogin()):vBook();
+}
+
+function vBook(){
+  var c=cfg(),h='';
+  if(S.admin&&isDirty())h+='<div class="banner">Aperçu avec vos modifications non publiées.</div>';
+  if(S.sent)return vSent();
+  if(!c.services.length)return '<div class="empty"><strong>Pas de prestation pour le moment</strong>Revenez un peu plus tard.</div>';
+  if(!S.sel.svc||!svcById(c,S.sel.svc))S.sel.svc=c.services[0].id;
+  var svc=svcById(c,S.sel.svc);
+  h+='<section><h3 style="margin-top:0">Prestation</h3><div class="svc" role="radiogroup" aria-label="Prestation">';
+  c.services.forEach(function(s){
+    h+='<label><input type="radio" name="svc" data-bind="svc" value="'+esc(s.id)+'"'+(s.id===S.sel.svc?' checked':'')+'><span class="n">'+esc(s.name)+'<span class="d">'+s.dur+' min</span></span><span class="p">'+euro(s.price)+'</span></label>';
+  });
+  h+='</div></section>';
+  var days=nextDays(c),anyDay=false;
+  h+='<section><h3>Jour</h3><div class="days">';
+  days.forEach(function(d){
+    var n=avail(c,d,svc.dur).length,dt=parseKey(d);if(n)anyDay=true;
+    h+='<button type="button" class="day" data-act="day" data-d="'+d+'" aria-pressed="'+(S.sel.date===d)+'"'+(n?'':' disabled')+' aria-label="'+esc(longDate(d))+(n?'':', complet ou fermé')+'"><span class="w">'+DAYS_S[dt.getDay()]+'</span><span class="k">'+dt.getDate()+'</span><span class="m">'+MONTHS_S[dt.getMonth()]+'</span></button>';
+  });
+  h+='</div>';
+  if(!anyDay)h+='<p class="note" style="margin-top:10px">Aucun créneau libre dans les '+c.horizonDays+' prochains jours.</p>';
+  h+='</section>';
+  if(S.sel.date){
+    var ts=avail(c,S.sel.date,svc.dur);
+    if(S.sel.time&&ts.indexOf(S.sel.time)<0)S.sel.time=null;
+    h+='<section><h3>Heure, '+esc(longDate(S.sel.date))+'</h3>';
+    if(!ts.length)h+='<div class="empty"><strong>Journée complète</strong>Choisissez un autre jour.</div>';
+    else{h+='<div class="times">';ts.forEach(function(t){h+='<button type="button" class="time" data-act="time" data-t="'+t+'" aria-pressed="'+(S.sel.time===t)+'">'+t+'</button>';});h+='</div>';}
+    h+='</section>';
+  }
+  if(S.sel.date&&S.sel.time){
+    h+='<section><h3>Vos coordonnées</h3><div class="card">';
+    h+='<div class="summary"><span><b>'+esc(svc.name)+'</b></span><span>'+esc(longDate(S.sel.date))+', '+S.sel.time+' à '+fromMin(toMin(S.sel.time)+svc.dur)+'</span><span>'+euro(svc.price)+'</span></div>';
+    h+='<div class="field"><label for="fName">Nom et prénom</label><input type="text" id="fName" data-bind="name" autocomplete="name" value="'+esc(S.form.name)+'"></div>';
+    h+='<div class="field"><label for="fPhone">Téléphone</label><input type="tel" id="fPhone" data-bind="phone" autocomplete="tel" inputmode="tel" value="'+esc(S.form.phone)+'"></div>';
+    if(S.err)h+='<p class="err">'+esc(S.err)+'</p>';
+    h+='<button type="button" class="btn" data-act="request">Préparer ma demande</button>';
+    h+='<p class="note" style="margin:12px 0 0">Le rendez-vous est confirmé quand MK Barber vous répond.</p>';
+    h+='</div></section>';
+  }
+  return h;
+}
+
+function requestMessage(){
+  var c=cfg(),a=S.sent;
+  return 'Bonjour, je souhaite un rendez-vous chez MK Barber.\n'+a.svcName+'\n'+longDate(a.date)+' à '+a.time+'\nNom : '+a.name+'\nTél : '+a.phone;
+}
+function vSent(){
+  var c=cfg(),msg=requestMessage(),num=String(c.whatsapp||'').replace(/\D/g,'');
+  var h='<h2>Demande prête</h2><p class="note">Envoyez ce message à MK Barber. Votre créneau est confirmé quand il vous répond.</p>';
+  h+='<div class="field"><label for="msgBox">Votre message</label><textarea id="msgBox" rows="6" readonly>'+esc(msg)+'</textarea></div>';
+  h+='<div class="stack">';
+  if(num)h+='<a class="btn" href="https://wa.me/'+num+'?text='+encodeURIComponent(msg)+'" target="_blank" rel="noopener">Envoyer sur WhatsApp</a>';
+  h+='<button type="button" class="btn'+(num?' ghost':'')+'" data-act="copy">Copier le message</button>';
+  h+='<a class="btn ghost" href="https://ig.me/m/'+esc(c.handle||'mk.barber33000')+'" target="_blank" rel="noopener">Écrire sur Instagram</a>';
+  h+='<button type="button" class="btn ghost" data-act="again">Nouvelle demande</button>';
+  h+='</div>';
+  if(!num)h+='<p class="note" style="margin-top:12px">Sur Instagram, collez le message copié dans la conversation.</p>';
+  return h;
+}
+
+/* ---------- connexion gérant ---------- */
+function vLogin(){
+  var h='<h2>Connexion gérant</h2><div class="card"><p class="note">Réservé à MK Barber. Entrez votre code pour modifier les horaires et noter les rendez-vous confirmés.</p>';
+  h+='<div class="field"><label for="code">Code</label><input type="password" id="code" autocomplete="current-password" inputmode="numeric"></div>';
+  if(S.adminErr)h+='<p class="err">'+esc(S.adminErr)+'</p>';
+  h+='<button type="button" class="btn" data-act="login">Se connecter</button></div>';
+  return h;
+}
+function sha256(str){
+  if(!(window.crypto&&crypto.subtle))return Promise.reject(new Error('nocrypto'));
+  return crypto.subtle.digest('SHA-256',new TextEncoder().encode(str)).then(function(buf){
+    return Array.prototype.map.call(new Uint8Array(buf),function(b){return ('0'+b.toString(16)).slice(-2);}).join('');
+  });
+}
+
+function vAdmin(){
+  var h='<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px"><span>'+(isDirty()?'<span class="badge warn">Non publié</span>':'<span class="badge">À jour</span>')+'</span><button type="button" class="btn small ghost" data-act="logout">Se déconnecter</button></div>';
+  h+='<nav class="tabs" style="margin-top:0">';
+  [['rdv','Rendez-vous'],['set','Réglages'],['pub','Publier']].forEach(function(x){h+='<button type="button" data-act="adm" data-v="'+x[0]+'" aria-selected="'+(S.admView===x[0])+'">'+x[1]+'</button>';});
+  h+='</nav>';
+  if(S.admView==='set')return h+vSettings();
+  if(S.admView==='pub')return h+vPublish();
+  return h+vRdv();
+}
+function vRdv(){
+  var d=S.draft,h='<h2>Rendez-vous confirmés</h2><p class="note">Quand vous confirmez un client, notez son créneau ici. Il disparaît alors de la liste des clients après publication.</p>';
+  h+='<div class="card"><div class="grid2"><div class="field"><label for="aDate">Jour</label><input type="date" id="aDate" data-bind="nb-date" value="'+esc(S.newBusy.date)+'"></div><div class="field"><label for="aTime">Heure</label><input type="time" id="aTime" data-bind="nb-time" value="'+esc(S.newBusy.time)+'"></div></div>';
+  h+='<div class="grid2"><div class="field"><label for="aSvc">Prestation</label><select id="aSvc" data-bind="nb-svc">';
+  d.services.forEach(function(s){h+='<option value="'+esc(s.id)+'"'+(S.newBusy.svc===s.id?' selected':'')+'>'+esc(s.name)+'</option>';});
+  h+='</select></div><div class="field"><label for="aName">Client</label><input type="text" id="aName" data-bind="nb-label" value="'+esc(S.newBusy.label)+'"></div></div>';
+  if(S.settingsErr)h+='<p class="err">'+esc(S.settingsErr)+'</p>';
+  h+='<button type="button" class="btn" data-act="add-busy">Ajouter ce rendez-vous</button></div>';
+  var today=dk(new Date());
+  var list=d.busy.map(function(b,i){return {b:b,i:i};}).filter(function(x){return x.b.date>=today;}).sort(function(x,y){return (x.b.date+x.b.time)<(y.b.date+y.b.time)?-1:1;});
+  h+='<h3>À venir</h3>';
+  if(!list.length)return h+'<div class="empty"><strong>Aucun rendez-vous noté</strong>Ajoutez ici les rendez-vous que vous avez confirmés.</div>';
+  var cur=null;
+  list.forEach(function(x){
+    if(cur!==x.b.date){cur=x.b.date;h+='<p class="note" style="margin:14px 0 6px;font-weight:700;color:var(--fg)">'+esc(longDate(cur))+'</p>';}
+    h+='<div class="row"><div class="t">'+x.b.time+'<br><span style="color:var(--muted);font-size:.8rem">'+fromMin(toMin(x.b.time)+(x.b.dur||30))+'</span></div><div class="who"><b>'+esc(x.b.label||'Client')+'</b><span>'+(x.b.dur||30)+' min</span></div><button type="button" class="btn small ghost" data-act="rm-busy" data-i="'+x.i+'">Retirer</button></div>';
+  });
+  return h;
+}
+function vSettings(){
+  var d=S.draft,h='<h2>Réglages</h2><h3 style="margin-top:8px">Horaires d’ouverture</h3><p class="note">Ajoutez plusieurs plages le même jour, par exemple 8h à 15h puis 17h à 18h.</p><div class="hours">';
+  ORDER.forEach(function(i){
+    var x=d.hours[i];
+    h+='<div class="hrow"><label class="tog"><input type="checkbox" data-bind="h-open" data-h="'+i+'"'+(x.open?' checked':'')+'>'+DAYS[i]+(x.open?'':' <span class="closed">Fermé</span>')+'</label>';
+    if(x.open){
+      x.ranges.forEach(function(r,j){
+        h+='<div class="rng"><input type="time" aria-label="Début de plage '+(j+1)+', '+DAYS[i]+'" data-bind="h-s" data-h="'+i+'" data-r="'+j+'" value="'+r.s+'"><span class="sep">à</span><input type="time" aria-label="Fin de plage '+(j+1)+', '+DAYS[i]+'" data-bind="h-e" data-h="'+i+'" data-r="'+j+'" value="'+r.e+'">';
+        if(x.ranges.length>1)h+='<button type="button" class="btn small ghost" data-act="rm-range" data-h="'+i+'" data-r="'+j+'">Retirer</button>';
+        h+='</div>';
+      });
+      h+='<div class="rng"><button type="button" class="btn small ghost" data-act="add-range" data-h="'+i+'">Ajouter une plage</button></div>';
+    }
+    h+='</div>';
+  });
+  h+='</div><h3>Jours de fermeture</h3><div class="addrow"><input type="date" id="closedDate" aria-label="Date de fermeture"><button type="button" class="btn small ghost" data-act="add-closed">Ajouter</button></div>';
+  if(d.closed.length){h+='<div class="chips">';d.closed.slice().sort().forEach(function(k){h+='<span class="chip">'+esc(longDate(k))+'<button type="button" aria-label="Retirer" data-act="rm-closed" data-d="'+k+'">×</button></span>';});h+='</div>';}
+  h+='<h3>Prestations</h3>';
+  d.services.forEach(function(s,i){
+    h+='<div class="srow"><input type="text" data-bind="s-name" data-f="name" data-i="'+i+'" aria-label="Nom de la prestation" value="'+esc(s.name)+'"><select data-bind="s-dur" data-i="'+i+'" aria-label="Durée">';
+    [15,30,45,60,75,90,120].forEach(function(m){h+='<option value="'+m+'"'+(m===s.dur?' selected':'')+'>'+m+' min</option>';});
+    h+='</select><input type="number" min="0" step="0.5" inputmode="decimal" data-bind="s-price" data-i="'+i+'" aria-label="Prix en euros" value="'+s.price+'"><button type="button" class="btn small ghost" data-act="rm-svc" data-i="'+i+'">Retirer</button></div>';
+  });
+  h+='<button type="button" class="btn small ghost" data-act="add-svc">Ajouter une prestation</button>';
+  h+='<h3>Contact</h3><div class="field"><label for="wa">Numéro WhatsApp (format international, sans +)</label><input type="tel" id="wa" data-bind="wa" inputmode="tel" placeholder="33612345678" value="'+esc(d.whatsapp)+'"></div>';
+  h+='<h3>Code gérant</h3><div class="addrow"><input type="password" id="newCode" aria-label="Nouveau code" placeholder="Nouveau code"><button type="button" class="btn small ghost" data-act="set-code">Changer</button></div>';
+  if(S.settingsErr)h+='<p class="err" style="margin-top:12px">'+esc(S.settingsErr)+'</p>';
+  return h;
+}
+function vPublish(){
+  var txt='window.MK_CONFIG = '+JSON.stringify(S.draft,null,2)+';\n';
+  var h='<h2>Publier</h2>';
+  if(!isDirty())h+='<p class="note">Aucune modification en attente. Le site affiche déjà vos réglages.</p>';
+  else h+='<p class="note">Vos modifications ne sont visibles que sur cet appareil. Pour les montrer à vos clients, mettez à jour le fichier config.js sur GitHub.</p>';
+  h+='<ol class="steps"><li>Appuyez sur « Copier ».</li><li>Sur GitHub, ouvrez le fichier <b>config.js</b>, puis le crayon (Edit).</li><li>Remplacez tout le contenu par le texte copié et validez avec « Commit changes ».</li><li>Attendez une minute, puis rechargez le site.</li></ol>';
+  h+='<div class="field"><label for="cfgText">Contenu de config.js</label><textarea id="cfgText" rows="12" readonly>'+esc(txt)+'</textarea></div>';
+  h+='<div class="stack"><button type="button" class="btn" data-act="copy-cfg">Copier</button>';
+  if(isDirty())h+='<button type="button" class="btn danger" data-act="reset-draft">Annuler mes modifications</button>';
+  h+='</div>';
+  return h;
+}
+
+/* ---------- utilitaires ---------- */
+var toastT=null;
+function toast(m){$toast.textContent=m;$toast.hidden=false;clearTimeout(toastT);toastT=setTimeout(function(){$toast.hidden=true;},2800);}
+function copyText(text,boxId){
+  var done=function(){toast('Copié');};
+  var fallback=function(){var el=document.getElementById(boxId);if(el){el.focus();el.select();try{if(document.execCommand('copy')){done();return;}}catch(e){}}toast('Sélectionnez le texte et copiez-le');};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(text).then(done,fallback);else fallback();
+}
+
+/* ---------- événements ---------- */
+$tabs.addEventListener('click',function(e){var b=e.target.closest('[data-act="tab"]');if(!b)return;if(b.dataset.v==='book'&&S.view!=='book')S.sent=null;S.view=b.dataset.v;S.err=null;render();});
+$app.addEventListener('click',function(e){
+  var t=e.target.closest('[data-act]');if(!t)return;
+  var a=t.dataset.act,c=cfg();
+  if(a==='day'){S.sel.date=t.dataset.d;S.sel.time=null;S.err=null;render();}
+  else if(a==='time'){S.sel.time=t.dataset.t;S.err=null;render();}
+  else if(a==='request'){
+    var name=S.form.name.trim(),phone=S.form.phone.trim(),svc=svcById(c,S.sel.svc);
+    if(name.length<2){S.err='Indiquez votre nom et prénom.';render();return;}
+    if(phone.replace(/\D/g,'').length<8){S.err='Indiquez un numéro de téléphone valide.';render();return;}
+    try{localStorage.setItem('mk-barber-form',JSON.stringify({name:name,phone:phone}));}catch(x){}
+    S.sent={svcName:svc.name,date:S.sel.date,time:S.sel.time,name:name,phone:phone};S.err=null;render();
+  }
+  else if(a==='copy')copyText(requestMessage(),'msgBox');
+  else if(a==='again'){S.sent=null;S.sel.time=null;S.sel.date=null;render();}
+  else if(a==='login'){
+    var code=document.getElementById('code').value;
+    sha256(code).then(function(hx){
+      if(hx===PUB.adminHash){S.admin=true;try{sessionStorage.setItem(SS_ADMIN,'1');}catch(x){}S.draft=loadDraft();S.adminErr=null;S.admView='rdv';render();}
+      else{S.adminErr='Code incorrect.';render();}
+    },function(){S.adminErr='La connexion demande une page en https (GitHub Pages).';render();});
+  }
+  else if(a==='logout'){S.admin=false;S.draft=null;try{sessionStorage.removeItem(SS_ADMIN);}catch(x){}render();}
+  else if(a==='adm'){S.admView=t.dataset.v;S.settingsErr=null;render();}
+  else if(a==='add-busy'){
+    var nb=S.newBusy,sv=svcById(S.draft,nb.svc||S.draft.services[0].id);
+    if(!nb.date||!nb.time){S.settingsErr='Choisissez un jour et une heure.';render();return;}
+    S.draft.busy.push({date:nb.date,time:nb.time,dur:sv?sv.dur:30,label:nb.label.trim()});
+    S.newBusy.label='';S.settingsErr=null;saveDraft();toast('Rendez-vous ajouté');render();
+  }
+  else if(a==='rm-busy'){S.draft.busy.splice(+t.dataset.i,1);saveDraft();render();}
+  else if(a==='add-range'){var hh=S.draft.hours[t.dataset.h],lr=hh.ranges[hh.ranges.length-1],ns=Math.min(toMin(lr.e)+60,22*60);hh.ranges.push({s:fromMin(ns),e:fromMin(Math.min(ns+60,23*60+30))});saveDraft();render();}
+  else if(a==='rm-range'){S.draft.hours[t.dataset.h].ranges.splice(+t.dataset.r,1);saveDraft();render();}
+  else if(a==='add-closed'){var v=document.getElementById('closedDate').value;if(v&&S.draft.closed.indexOf(v)<0){S.draft.closed.push(v);saveDraft();render();}}
+  else if(a==='rm-closed'){S.draft.closed=S.draft.closed.filter(function(k){return k!==t.dataset.d;});saveDraft();render();}
+  else if(a==='add-svc'){S.draft.services.push({id:'s'+rid(),name:'',dur:30,price:0});saveDraft();render();}
+  else if(a==='rm-svc'){S.draft.services.splice(+t.dataset.i,1);saveDraft();render();}
+  else if(a==='set-code'){
+    var nc=document.getElementById('newCode').value;
+    if(nc.length<4){S.settingsErr='Le code doit avoir au moins 4 caractères.';render();return;}
+    sha256(nc).then(function(hx){S.draft.adminHash=hx;S.settingsErr=null;saveDraft();toast('Code changé, pensez à publier');render();},function(){S.settingsErr='Indisponible hors https.';render();});
+  }
+  else if(a==='copy-cfg')copyText(document.getElementById('cfgText').value,'cfgText');
+  else if(a==='reset-draft'){try{localStorage.removeItem(LS_DRAFT);}catch(x){}S.draft=normalize(clone(PUB));toast('Modifications annulées');render();}
+});
+$app.addEventListener('input',function(e){
+  var t=e.target,b=t.dataset.bind;if(!b)return;
+  if(b==='name')S.form.name=t.value;
+  else if(b==='phone')S.form.phone=t.value;
+  else if(b==='nb-date')S.newBusy.date=t.value;
+  else if(b==='nb-time')S.newBusy.time=t.value;
+  else if(b==='nb-label')S.newBusy.label=t.value;
+  else if(b==='h-s'){S.draft.hours[t.dataset.h].ranges[+t.dataset.r].s=t.value;saveDraft();}
+  else if(b==='h-e'){S.draft.hours[t.dataset.h].ranges[+t.dataset.r].e=t.value;saveDraft();}
+  else if(b==='s-name'){S.draft.services[+t.dataset.i].name=t.value;saveDraft();}
+  else if(b==='s-price'){S.draft.services[+t.dataset.i].price=Number(t.value)||0;saveDraft();}
+  else if(b==='wa'){S.draft.whatsapp=t.value;saveDraft();}
+});
+$app.addEventListener('change',function(e){
+  var t=e.target,b=t.dataset.bind;if(!b)return;
+  if(b==='svc'){S.sel.svc=t.value;S.sel.time=null;S.err=null;render();}
+  else if(b==='nb-svc')S.newBusy.svc=t.value;
+  else if(b==='h-open'){var hx=S.draft.hours[t.dataset.h];hx.open=t.checked;saveDraft();render();}
+  else if(b==='s-dur'){S.draft.services[+t.dataset.i].dur=Number(t.value);saveDraft();}
+});
+document.addEventListener('change',function(e){if(e.target.closest&&e.target.closest('#app')&&S.view==='admin'&&S.admin){var el=e.target;if(el.dataset&&(el.dataset.bind==='h-s'||el.dataset.bind==='h-e'||el.dataset.bind==='s-name'||el.dataset.bind==='s-price'||el.dataset.bind==='wa')){render();}}});
+
+render();
+})();
+</script>
+</body>
+</html>
